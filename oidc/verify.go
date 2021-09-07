@@ -249,6 +249,7 @@ func (v *IDTokenVerifier) Verify(ctx context.Context, rawIDToken string) (*IDTok
 	// If a client ID has been provided, make sure it's part of the audience. SkipClientIDCheck must be true if ClientID is empty.
 	//
 	// This check DOES NOT ensure that the ClientID is the party to which the ID Token was issued (i.e. Authorized party).
+	//某些情况下需要将这一段的if逻辑注释掉 start
 	if !v.config.SkipClientIDCheck {
 		if v.config.ClientID != "" {
 			if !contains(t.Audience, v.config.ClientID) {
@@ -258,7 +259,7 @@ func (v *IDTokenVerifier) Verify(ctx context.Context, rawIDToken string) (*IDTok
 			return nil, fmt.Errorf("oidc: invalid configuration, clientID must be provided or SkipClientIDCheck must be set")
 		}
 	}
-
+	//某些情况下需要将这一段的if逻辑注释掉 end
 	// If a SkipExpiryCheck is false, make sure token is not expired.
 	if !v.config.SkipExpiryCheck {
 		now := time.Now
